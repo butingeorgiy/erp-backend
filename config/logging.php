@@ -88,7 +88,14 @@ return [
         ],
 
         'errorlog' => [
-            'driver' => 'errorlog',
+            'driver' => 'single',
+            'path' => storage_path('logs/errors/errors.log'),
+            'level' => env('LOG_LEVEL', 'debug'),
+        ],
+
+        'infolog' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/info/info.log'),
             'level' => env('LOG_LEVEL', 'debug'),
         ],
 
