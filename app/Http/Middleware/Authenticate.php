@@ -2,20 +2,36 @@
 
 namespace App\Http\Middleware;
 
-use Illuminate\Auth\Middleware\Authenticate as Middleware;
+use App\Exceptions\AuthTokenNotFoundException;
+use App\Exceptions\UserTypeNotFoundException;
+use App\Services\AuthenticateService\Auth;
+use App\Services\AuthenticateService\Drivers\CookieTokenDriver;
+use App\Services\AuthenticateService\Exceptions\FailedToGetTokenException;
+use App\Services\AuthenticateService\Exceptions\NotAuthorizedRequest;
+use Closure;
+use Illuminate\Http\Request;
 
-class Authenticate extends Middleware
+class Authenticate
 {
     /**
-     * Get the path the user should be redirected to when they are not authenticated.
+     * Handle an incoming request.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return string|null
+     * @param Request $request
+     * @param Closure $next
+     * @param string ...$roles
+     * @return mixed
+     *
+     * @throws AuthTokenNotFoundException
+     * @throws UserTypeNotFoundException
+     * @throws FailedToGetTokenException
+     * @throws NotAuthorizedRequest
      */
-    protected function redirectTo($request)
+    public function handle(Request $request, Closure $next, ...$roles): mixed
     {
-        if (! $request->expectsJson()) {
-            return route('login');
+        if (Auth::check($roles, new CookieTokenDriver())) {
+            return $next($request);
         }
+
+        throw new NotAuthorizedRequest();
     }
 }

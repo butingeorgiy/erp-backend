@@ -2,16 +2,18 @@
 
 namespace App\Http\Middleware;
 
+use Closure;
 use Illuminate\Cookie\Middleware\EncryptCookies as Middleware;
+use Symfony\Component\HttpFoundation\Response;
 
 class EncryptCookies extends Middleware
 {
-    /**
-     * The names of the cookies that should not be encrypted.
-     *
-     * @var array
-     */
-    protected $except = [
-        //
-    ];
+    public function handle($request, Closure $next): Response
+    {
+        $this->except = [
+            'auth_token'
+        ];
+
+        return parent::handle($request, $next);
+    }
 }
