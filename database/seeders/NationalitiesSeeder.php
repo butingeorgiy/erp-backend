@@ -2,10 +2,10 @@
 
 namespace Database\Seeders;
 
-use DB;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
-class UserStatusesSeeder extends Seeder
+class NationalitiesSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -14,14 +14,12 @@ class UserStatusesSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('user_statuses')->insert([
+        DB::table('nationalities')->insert([
             [
-                'id' => 1,
-                'name' => 'Not Verified'
+                'name' => 'Русский (-ая)'
             ],
             [
-                'id' => 2,
-                'name' => 'Verified'
+                'name' => 'Казах (-шка)'
             ]
         ]);
     }

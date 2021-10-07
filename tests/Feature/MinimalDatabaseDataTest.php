@@ -39,8 +39,13 @@ class MinimalDatabaseDataTest extends TestCase
     public function test_user_statuses_table(): void
     {
         $this->assertDatabaseHas('user_statuses', [
-            'id' => User::$NORMAL_STATUS_ID,
-            'name' => 'Normal'
+            'id' => User::$NOT_VERIFIED_STATUS_ID,
+            'name' => 'Not verified'
+        ]);
+
+        $this->assertDatabaseHas('user_statuses', [
+            'id' => User::$VERIFIED_STATUS_ID,
+            'name' => 'Verified'
         ]);
     }
 

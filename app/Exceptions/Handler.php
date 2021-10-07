@@ -3,7 +3,7 @@
 namespace App\Exceptions;
 
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
-use Throwable;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class Handler extends ExceptionHandler
 {
@@ -36,6 +36,13 @@ class Handler extends ExceptionHandler
     {
         $this->reportable(function (ApiBaseException $e) {
             return false;
+        });
+
+        $this->renderable(function (NotFoundHttpException $e) {
+            return response()->json([
+                'error' => true,
+                'message' => 'Ресурс не найден по данному адресу.'
+            ], 404, options: JSON_UNESCAPED_UNICODE);
         });
     }
 }

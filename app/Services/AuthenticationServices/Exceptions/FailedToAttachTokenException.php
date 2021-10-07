@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services\AuthenticateService\Exceptions;
+namespace App\Services\AuthenticationServices\Exceptions;
 
 use App\Exceptions\ApiBaseException;
 use App\Models\User;
@@ -11,7 +11,7 @@ class FailedToAttachTokenException extends ApiBaseException
 {
     protected User $user;
 
-    protected static string $defaultErrorMessage = 'Failed to attach authentication token to user!';
+    protected string $defaultErrorMessage = 'Failed to attach authentication token to user.';
 
     #[Pure]
     public function __construct(User $user)

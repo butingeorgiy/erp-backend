@@ -1,13 +1,14 @@
 <?php
 
-namespace App\Services\AuthenticateService;
+namespace App\Services\AuthenticationServices;
 
 use App\Exceptions\AuthTokenNotFoundException;
 use App\Exceptions\UserTypeNotFoundException;
 use App\Models\AuthToken;
 use App\Models\User;
-use App\Services\AuthenticateService\Drivers\TokenDriverInterface;
-use App\Services\AuthenticateService\Exceptions\FailedToGetTokenException;
+use App\Services\AuthenticationServices\Drivers\TokenDriverInterface;
+use App\Services\AuthenticationServices\Exceptions\FailedToGetTokenException;
+use JetBrains\PhpStorm\ArrayShape;
 
 class AuthenticationClient
 {
@@ -41,6 +42,42 @@ class AuthenticationClient
         }
 
         return $this->isTokenValid($authToken->user, $authToken, $tokenInfo['token_hash']);
+    }
+
+    /**
+     * Check if user have access to his / her account.
+     * Authorization algorithm check email verification and
+     * user's status.
+     *
+     * If user has not got access, method return messages
+     * about specific causes.
+     *
+     * @param User $user
+     * @return array
+     */
+    #[ArrayShape([
+        'result' => "bool",
+        'messages' => "array"
+    ])]
+    public function isUserHasAccess(User $user): array
+    {
+        $messages = [];
+
+        if (!$user->email_verified) {
+            $messages[] = 'E-mail адрес не подтверждён!';
+        }
+
+        if (
+            in_array($user->type_id, [User::$LEGAL_RECRUITER_TYPE_ID, User::$EMPLOYER_TYPE_ID]) &&
+            $user->status_id === User::$NOT_VERIFIED_STATUS_ID
+        ) {
+            $messages[] = 'Пользователь не прошёл модерацию!';
+        }
+
+        return [
+            'result' => empty($messages),
+            'messages' => $messages
+        ];
     }
 
     /**

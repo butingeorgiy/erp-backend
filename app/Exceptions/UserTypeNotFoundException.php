@@ -7,9 +7,9 @@ use JetBrains\PhpStorm\Pure;
 
 class UserTypeNotFoundException extends ApiBaseException
 {
-    protected static int $httpStatusCode = 404;
+    protected int $httpStatusCode = 404;
 
-    protected static string $defaultErrorMessage = 'Тип пользователя не найден!';
+    protected string $defaultErrorMessage = 'Тип пользователя не найден!';
 
     protected ?int $modelId;
 

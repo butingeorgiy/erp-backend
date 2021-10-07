@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services\AuthenticateService\Traits;
+namespace App\Services\AuthenticationServices\Traits;
 
 use Illuminate\Support\Str;
 use JetBrains\PhpStorm\Pure;

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services\AuthenticateService\Drivers;
+namespace App\Services\AuthenticationServices\Drivers;
 
 use JetBrains\PhpStorm\ArrayShape;
 use Throwable;

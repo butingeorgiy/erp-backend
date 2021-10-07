@@ -7,9 +7,9 @@ use JetBrains\PhpStorm\Pure;
 
 class UserNotFoundException extends ApiBaseException
 {
-    protected static int $httpStatusCode = 404;
+    public int $httpStatusCode = 404;
 
-    protected static string $defaultErrorMessage = 'Пользователь не найден!';
+    public string $defaultErrorMessage = 'Пользователь не найден!';
 
     protected ?int $modelId;
 

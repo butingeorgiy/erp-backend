@@ -8,9 +8,9 @@ use Log;
 
 class ApiBaseException extends Exception
 {
-    protected static int $httpStatusCode = 500;
+    protected int $httpStatusCode = 500;
 
-    protected static string $defaultErrorMessage = 'Happen API error!';
+    protected string $defaultErrorMessage = 'Happen API error!';
 
 
     /**
@@ -31,7 +31,7 @@ class ApiBaseException extends Exception
     public function report(): bool
     {
         Log::channel('errorlog')->error(
-            $this->getMessage() ?: self::$defaultErrorMessage,
+            $this->getMessage() ?: $this->defaultErrorMessage,
             array_merge([
                 'meta' => [
                     'ip_address' => request()->ip(),
@@ -52,7 +52,7 @@ class ApiBaseException extends Exception
     {
         return response()->json([
             'error' => true,
-            'message' => $this->getMessage() ?: self::$defaultErrorMessage
-        ], self::$httpStatusCode, options: JSON_UNESCAPED_UNICODE);
+            'message' => $this->getMessage() ?: $this->defaultErrorMessage
+        ], $this->httpStatusCode, options: JSON_UNESCAPED_UNICODE);
     }
 }

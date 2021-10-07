@@ -2,18 +2,21 @@
 
 namespace App\Models;
 
-use App\Services\AuthenticateService\Traits\HasTokens;
-use App\Services\AuthenticateService\Traits\HasUniqueHashing;
+use App\Models\Traits\HasPhysicalRecruiterFunctionality;
+use App\Services\AuthenticationServices\Traits\HasTokens;
+use App\Services\AuthenticationServices\Traits\HasUniqueHashing;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * @property int id
  * @property string email
+ * @property int email_verified
  * @property string password
  * @property int type_id
  * @property int status_id
@@ -22,6 +25,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property string|null deleted_at
  *
  * @property UserType|null type
+ *
+ * @method static Builder byEmail(string $email) Retrieve user by email
  *
  * @mixin Builder
  */
@@ -32,6 +37,7 @@ class User extends Model
 
     use HasTokens;
     use HasUniqueHashing;
+    use HasPhysicalRecruiterFunctionality;
 
     # User types IDs
 
@@ -43,9 +49,16 @@ class User extends Model
 
     # User statuses IDs
 
-    public static int $NORMAL_STATUS_ID = 1;
+    public static int $NOT_VERIFIED_STATUS_ID = 1;
+    public static int $VERIFIED_STATUS_ID = 2;
 
     public $timestamps = false;
+
+    protected $guarded = [];
+
+    protected $casts = [
+        'email_verified' => 'boolean'
+    ];
 
 
     # Relations
@@ -70,7 +83,27 @@ class User extends Model
         return $this->belongsTo(UserType::class);
     }
 
-    # Other methods
+    /**
+     * Return user's email verification relation.
+     *
+     * @return HasOne
+     */
+    public function emailVerification(): HasOne
+    {
+        return $this->hasOne(EmailVerification::class);
+    }
 
+    # Scopes
 
+    /**
+     * Add condition for retrieving by email.
+     *
+     * @param Builder $query
+     * @param string $email
+     * @return Builder
+     */
+    public function scopeByEmail(Builder $query, string $email): Builder
+    {
+        return $query->where('email', $email);
+    }
 }

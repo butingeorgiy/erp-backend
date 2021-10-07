@@ -7,9 +7,9 @@ use JetBrains\PhpStorm\Pure;
 
 class AuthTokenNotFoundException extends ApiBaseException
 {
-    protected static int $httpStatusCode = 404;
+    protected int $httpStatusCode = 404;
 
-    protected static string $defaultErrorMessage = 'Не удалось найти токен по ID!';
+    protected string $defaultErrorMessage = 'Не удалось найти токен по ID!';
 
     protected ?int $modelId;
 

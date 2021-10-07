@@ -32,7 +32,7 @@ class UserFactory extends Factory
             'email' => $this->faker->email(),
             'password' => User::hashPassword('12345678'),
             'type_id' => User::$PHYSICAL_RECRUITER_TYPE_ID,
-            'status_id' => User::$NORMAL_STATUS_ID
+            'status_id' => User::$VERIFIED_STATUS_ID
         ];
     }
 }

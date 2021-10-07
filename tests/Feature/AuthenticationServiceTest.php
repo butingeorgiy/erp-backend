@@ -5,10 +5,10 @@ namespace Tests\Feature;
 use App\Exceptions\AuthTokenNotFoundException;
 use App\Exceptions\UserTypeNotFoundException;
 use App\Models\User;
-use App\Services\AuthenticateService\Auth;
-use App\Services\AuthenticateService\Drivers\UnitTestingTokenDriver;
-use App\Services\AuthenticateService\Exceptions\FailedToAttachTokenException;
-use App\Services\AuthenticateService\Exceptions\FailedToGetTokenException;
+use App\Services\AuthenticationServices\Auth;
+use App\Services\AuthenticationServices\Drivers\UnitTestingTokenDriver;
+use App\Services\AuthenticationServices\Exceptions\FailedToAttachTokenException;
+use App\Services\AuthenticationServices\Exceptions\FailedToGetTokenException;
 use Tests\TestCase;
 
 class AuthenticationServiceTest extends TestCase

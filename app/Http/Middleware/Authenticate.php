@@ -4,10 +4,10 @@ namespace App\Http\Middleware;
 
 use App\Exceptions\AuthTokenNotFoundException;
 use App\Exceptions\UserTypeNotFoundException;
-use App\Services\AuthenticateService\Auth;
-use App\Services\AuthenticateService\Drivers\CookieTokenDriver;
-use App\Services\AuthenticateService\Exceptions\FailedToGetTokenException;
-use App\Services\AuthenticateService\Exceptions\NotAuthorizedRequest;
+use App\Services\AuthenticationServices\Auth;
+use App\Services\AuthenticationServices\Drivers\CookieTokenDriver;
+use App\Services\AuthenticationServices\Exceptions\FailedToGetTokenException;
+use App\Services\AuthenticationServices\Exceptions\NotAuthorizedRequest;
 use Closure;
 use Illuminate\Http\Request;
 

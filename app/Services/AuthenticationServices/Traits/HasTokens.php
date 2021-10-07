@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Services\AuthenticateService\Traits;
+namespace App\Services\AuthenticationServices\Traits;
 
 use App\Models\AuthToken;
-use App\Services\AuthenticateService\Exceptions\FailedToAttachTokenException;
+use App\Services\AuthenticationServices\Exceptions\FailedToAttachTokenException;
 use Illuminate\Support\Str;
 use JetBrains\PhpStorm\Pure;
 
