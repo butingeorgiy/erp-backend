@@ -25,6 +25,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property string|null deleted_at
  *
  * @property UserType|null type
+ * @property PhysicalRecruiterData|null $physicalRecruiterData
  *
  * @method static Builder byEmail(string $email) Retrieve user by email
  *

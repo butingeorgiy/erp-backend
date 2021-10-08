@@ -5,7 +5,7 @@ namespace App\Services\AuthenticationServices\Drivers;
 use JetBrains\PhpStorm\ArrayShape;
 use Throwable;
 
-class CookieTokenDriver implements TokenDriverInterface
+class BearerTokenDriver implements TokenDriverInterface
 {
     /**
      * @inheritDoc
@@ -15,7 +15,7 @@ class CookieTokenDriver implements TokenDriverInterface
         'token_hash' => "string"
     ])] public function getTokenInfo(): array|null
     {
-        if (!$token = request()->cookie('auth_token')) {
+        if (!$token = request()->bearerToken()) {
             return null;
         }
 

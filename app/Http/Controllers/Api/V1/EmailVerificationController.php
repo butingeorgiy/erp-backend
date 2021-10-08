@@ -27,6 +27,6 @@ class EmailVerificationController extends Controller
 
         return response()->json([
             'success' => true
-        ], JSON_UNESCAPED_UNICODE);
+        ], options: JSON_UNESCAPED_UNICODE);
     }
 }

@@ -14,6 +14,7 @@ class AuthenticationClient
 {
     /**
      * Check authentication of user by role / roles.
+     * If you do not mind specific role, you can pass '*' as $roles param.
      *
      * @param string|array $roles List for roles that need check.
      * @param TokenDriverInterface $tokenDriver Token driver for token retrieving.
@@ -37,7 +38,7 @@ class AuthenticationClient
             throw new AuthTokenNotFoundException((int)$tokenInfo['token_id']);
         }
 
-        if (!$this->isUserHasRoles($authToken->user, $roles)) {
+        if (!$this->isUserHasRoles($authToken->user, $roles) && $roles[0] !== '*') {
             return false;
         }
 
@@ -78,6 +79,27 @@ class AuthenticationClient
             'result' => empty($messages),
             'messages' => $messages
         ];
+    }
+
+    /**
+     * Get current authenticated user.
+     * If user is not authenticated, return Null.
+     *
+     * @param TokenDriverInterface $tokenDriver
+     * @return User|null
+     */
+    public function getCurrentUser(TokenDriverInterface $tokenDriver): ?User
+    {
+        if (!$tokenInfo = $tokenDriver->getTokenInfo()) {
+            return null;
+        }
+
+        /** @var AuthToken|null $authToken */
+        if (!$authToken = AuthToken::with('user')->find((int)$tokenInfo['token_id'])) {
+            return null;
+        }
+
+        return $authToken->user;
     }
 
     /**

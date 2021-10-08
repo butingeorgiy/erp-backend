@@ -108,4 +108,28 @@ class AuthenticationServiceTest extends TestCase
 
         $this->assertFalse($isUserAuth);
     }
+
+    /**
+     * Check user's valid auth token with any role.
+     *
+     * @throws AuthTokenNotFoundException
+     * @throws FailedToAttachTokenException
+     * @throws FailedToGetTokenException
+     * @throws UserTypeNotFoundException
+     */
+    public function test_check_any_role(): void
+    {
+        /** @var User $user */
+        $user = User::factory()->create([
+            'type_id' => User::$PHYSICAL_RECRUITER_TYPE_ID
+        ]);
+
+        $splicedToken = explode('|', decrypt($user->attachToken(), false));
+
+        $isUserAuth = Auth::check('*', new UnitTestingTokenDriver($splicedToken[0], $splicedToken[1]));
+
+        $user->forceDelete();
+
+        $this->assertTrue($isUserAuth);
+    }
 }
